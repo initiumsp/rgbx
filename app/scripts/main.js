@@ -76,8 +76,6 @@
       return;
     }
 
-    console.log(videoNode.offsetWidth, videoNode.offsetHeight);
-
     context.drawImage(videoNode, x0, y0, 320, 160);
     window.requestAnimationFrame(() => {
       updateCanvasFrame(videoNode, context, width, height);
