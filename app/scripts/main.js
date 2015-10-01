@@ -8,16 +8,24 @@
   //
   // =====================================
 
-  let currentFilter = data => {
-    for(var i = 0; i < data.length; i += 4) {
+  const original = data => data;
+
+  const deuteranopia = data => {
+
+    for (var i = 0; i < data.length; i += 4) {
+
+      let yellow = (data[i] + data[i + 1]) / 2;
+
       // red
-      data[i] = 255 - data[i];
+      data[i] = yellow;
       // green
-      data[i + 1] = 255 - data[i + 1];
-      // blue
-      data[i + 2] = 255 - data[i + 2];
+      data[i + 1] = yellow;
+      // blue - remain constant
+      // data[i + 2] = data[i + 2];
     }
   };
+
+  let filter = deuteranopia;
 
 
 
@@ -94,7 +102,7 @@
     // Apply filter to the image frame
     let imageData = context.getImageData(x0, y0, width, height);
     let data = imageData.data;
-    currentFilter(imageData.data);
+    filter(imageData.data);
     context.putImageData(imageData, x0, y0);
 
     // Request for next frame
