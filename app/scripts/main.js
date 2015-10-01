@@ -8,30 +8,40 @@
   //
   // =====================================
 
-  const original = data => data;
+  const identicalParameters = [
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1]
+  ];
 
-  const deuteranopia = data => {
+  const createFilter = parameterMatrix =>
 
-    // Reference parameters from:
-    // http://blog.noblemaster.com/wp-content/uploads/2013/10/2013-10-26-ColorCorrection.txt
+    data => {
 
-    for (var i = 0; i < data.length; i += 4) {
+      for (let i = 0; i < data.length; i += 4) {
 
-      let getR = (r, g, b) => 0.43 * r + 0.72 * g + -0.15 * b;
-      let getG = (r, g, b) => 0.34 * r + 0.57 * g + -0.09 * b;
-      let getB = (r, g, b) => -0.02 * r + 0.03 * g + 1.00 * b;
+        let getR = (r, g, b) => parameterMatrix[0][0] * r + parameterMatrix[0][1] * g + parameterMatrix[0][2] * b,
+            getG = (r, g, b) => parameterMatrix[1][0] * r + parameterMatrix[1][1] * g + parameterMatrix[1][2] * b,
+            getB = (r, g, b) => parameterMatrix[2][0] * r + parameterMatrix[2][1] * g + parameterMatrix[2][2] * b;
 
-      let r = data[i];
-      let g = data[i + 1];
-      let b = data[i + 2];
+        let r = data[i],
+            g = data[i + 1],
+            b = data[i + 2];
 
-      data[i] = getR(r, g, b);
-      data[i+1] = getG(r, g, b);
-      data[i+2] = getB(r, g, b);
-    }
-  };
+        data[i]   = getR(r, g, b);
+        data[i+1] = getG(r, g, b);
+        data[i+2] = getB(r, g, b);
+      }
 
-  let filter = deuteranopia;
+    };
+
+  const deuteranopiaParameters = [
+      [ 0.43, 0.72, -0.15],
+      [ 0.34, 0.57, -0.09],
+      [-0.02, 0.03,  1.00]
+  ];
+
+  let filter = createFilter(deuteranopiaParameters);
 
   // =====================================
   //
