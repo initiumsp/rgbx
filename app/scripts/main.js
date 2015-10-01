@@ -3,6 +3,7 @@
   'use strict';
 
   const videoDOMNode = document.getElementById("video");
+  const canvasDOMNode = document.getElementById('display');
   const videoConstraints = {
           video: true,
           audio: false
@@ -14,8 +15,10 @@
     stream => {
       if (urlCreator === null) {
         videoNode.src = stream;
+        console.log(videoNode.src);
       } else {
         videoNode.src = urlCreator(stream);
+        console.log(videoNode.src);
       }
       videoNode.play();
     };
@@ -26,28 +29,28 @@
   //
   // =====================================
 
-  let funcGetUserMedia, vendorURLCreator;
+  let funcGetUserMedia, vendorUrlCreator;
 
   // Standard
   if (navigator.getUserMedia) {
     funcGetUserMedia = navigator.getUserMedia.bind(navigator);
-    vendorURLCreator = null;
+    vendorUrlCreator = null;
     console.log('Using standard getUserMedia');
 
   // Webkit-specific
   } else if (navigator.webkitGetUserMedia) {
     funcGetUserMedia = navigator.webkitGetUserMedia.bind(navigator);
-    vendorURLCreator = window.URL.createObjectURL;
+    vendorUrlCreator = window.URL.createObjectURL;
     console.log('Using Webkit getUserMedia');
 
   // Gecko-specific
   } else if (navigator.mozGetUserMedia) {
     funcGetUserMedia = navigator.mozGetUserMedia.bind(navigator);
-    vendorURLCreator = window.URL.createObjectURL;
+    vendorUrlCreator = window.URL.createObjectURL;
     console.log('Using Mozilla getUserMedia');
   }
 
-  const streamHandler = createStreamHandler(videoDOMNode, vendorURLCreator);
+  const streamHandler = createStreamHandler(videoDOMNode, vendorUrlCreator);
   funcGetUserMedia(videoConstraints, streamHandler, mediaErrorHandler);
 
 }(window, window.navigator, window.document, window.console));
