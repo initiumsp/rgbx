@@ -2,25 +2,32 @@
 
   'use strict';
 
-  const mediaErrorHandler = error => console.log("Video capture error: ", error);
+  // =====================================
+  //
+  // Create Colour Filters
+  //
+  // =====================================
 
-  const createStreamHandler = (videoNode, urlCreator) =>
-    stream => {
-      if (urlCreator === null) {
-        videoNode.src = stream;
-        console.log(videoNode.src);
-      } else {
-        videoNode.src = urlCreator(stream);
-        console.log(videoNode.src);
-      }
-      videoNode.play();
-    };
 
   // =====================================
   //
   // Set up vendor-specific media input
   //
   // =====================================
+
+  const mediaErrorHandler = error => console.log("Video capture error: ", error);
+
+  const createStreamHandler = (videoNode, urlCreator) =>
+      stream => {
+        if (urlCreator === null) {
+          videoNode.src = stream;
+          console.log(videoNode.src);
+        } else {
+          videoNode.src = urlCreator(stream);
+          console.log(videoNode.src);
+        }
+        videoNode.play();
+      };
 
   const videoDOMNode = document.getElementById("video");
   const videoConstraints = {
@@ -61,15 +68,20 @@
   const canvasContext = canvasDOMNode.getContext('2d');
 
   const updateCanvasFrame = (videoNode, context, width, height) => {
+
+    const x0 = 0;
+    const y0 = 0;
+
     if (videoNode.paused || videoNode.ended) {
       return;
     }
-    context.drawImage(videoNode, 0, 0, width, height);
 
-    window.setTimeout(() => {
+    console.log(videoNode.offsetWidth, videoNode.offsetHeight);
+
+    context.drawImage(videoNode, x0, y0, 320, 160);
+    window.requestAnimationFrame(() => {
       updateCanvasFrame(videoNode, context, width, height);
-    }, 16);
-    console.log('running');
+    });
   };
 
   videoDOMNode.addEventListener('play', () => {

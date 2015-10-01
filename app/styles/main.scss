@@ -1,18 +1,9 @@
-.container {
-  max-width: 730px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-canvas {
+#display {
+  display: block;
   width: 640px;
   height: 480px;
 }
 
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
+#video {
+  width: 640px;
 }
