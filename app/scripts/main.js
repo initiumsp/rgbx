@@ -28,9 +28,8 @@
   const deuteranopiaLinearParameters = [
     [ 0.43, 0.72, -0.15],
     [ 0.34, 0.57, -0.09],
-    [-0.02, 0.03,  1.00]
+    [-0.02, 0.03,  0.80]
   ];
-
 
   const createLinearFilter = parameterMatrix =>
 
