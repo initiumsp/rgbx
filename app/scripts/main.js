@@ -8,6 +8,11 @@
   //
   // =====================================
 
+  let currentFilter = data => {
+    return null;
+  };
+
+
 
   // =====================================
   //
@@ -76,7 +81,23 @@
       return;
     }
 
+    // Paint the frame onto the canvas
     context.drawImage(videoNode, x0, y0, 320, 160);
+
+    // Apply filter to the image frame
+    let imageData = context.getImageData(x0, y0, width, height);
+    let data = imageData.data;
+    for(var i = 0; i < data.length; i += 4) {
+      // red
+      data[i] = 255 - data[i];
+      // green
+      data[i + 1] = 255 - data[i + 1];
+      // blue
+      data[i + 2] = 255 - data[i + 2];
+    }
+    context.putImageData(imageData, x0, y0);
+
+    // Request for next frame
     window.requestAnimationFrame(() => {
       updateCanvasFrame(videoNode, context, width, height);
     });
