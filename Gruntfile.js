@@ -380,9 +380,18 @@ module.exports = function (grunt) {
         'imagemin',
         'svgmin'
       ]
+    },
+
+    'gh-pages': {
+      options: {
+        base: 'dist',
+        repo: 'git@github.com:andyshuxin/rgbx.git'
+      },
+      src: ['**']
     }
   });
 
+  grunt.loadNpmTasks('grunt-gh-pages');
 
   grunt.registerTask('serve', 'start the server and preview your app', function (target) {
 
@@ -440,5 +449,9 @@ module.exports = function (grunt) {
     'newer:eslint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'gh-pages'
   ]);
 };
