@@ -4,6 +4,15 @@
 
   // =====================================
   //
+  //        Define constants
+  //
+  // =====================================
+
+  const CANVAS_WIDTH  = 640;
+  const CANVAS_HEIGHT = 480;
+
+  // =====================================
+  //
   //        Create Colour Filters
   //
   // =====================================
@@ -127,7 +136,7 @@
   };
 
   videoDOMNode.addEventListener('play', () => {
-    updateCanvasFrame(videoDOMNode, canvasContext, 640, 480);
+    updateCanvasFrame(videoDOMNode, canvasContext, CANVAS_WIDTH, CANVAS_HEIGHT);
   });
 
 }(window, window.navigator, window.document, window.console));

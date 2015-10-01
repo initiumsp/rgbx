@@ -1,9 +1,13 @@
+$CANVAS_WIDTH  : 640px;
+$CANVAS_HEIGHT : 480px;
+
 #display {
   display: block;
-  width: 640px;
-  height: 480px;
+  width:  $CANVAS_WIDTH;
+  height: $CANVAS_HEIGHT;
 }
 
 #video {
-  width: 640px;
+  width:  $CANVAS_WIDTH;
+  height: $CANVAS_HEIGHT;
 }
