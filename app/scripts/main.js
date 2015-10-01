@@ -9,12 +9,20 @@
   // =====================================
 
   const identicalParameters = [
-    [1, 0, 0],
-    [0, 1, 0],
-    [0, 0, 1]
+  // R  G  B  - values from the camera
+    [1, 0, 0],  // R - linear coefficients
+    [0, 1, 0],  // G
+    [0, 0, 1]   // B
   ];
 
-  const createFilter = parameterMatrix =>
+  const deuteranopiaLinearParameters = [
+    [ 0.43, 0.72, -0.15],
+    [ 0.34, 0.57, -0.09],
+    [-0.02, 0.03,  1.00]
+  ];
+
+
+  const createLinearFilter = parameterMatrix =>
 
     data => {
 
@@ -35,13 +43,7 @@
 
     };
 
-  const deuteranopiaParameters = [
-      [ 0.43, 0.72, -0.15],
-      [ 0.34, 0.57, -0.09],
-      [-0.02, 0.03,  1.00]
-  ];
-
-  let filter = createFilter(deuteranopiaParameters);
+  let filter = createLinearFilter(deuteranopiaLinearParameters);
 
   // =====================================
   //
