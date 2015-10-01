@@ -58,10 +58,8 @@
       stream => {
         if (urlCreator === null) {
           videoNode.src = stream;
-          console.log(videoNode.src);
         } else {
           videoNode.src = urlCreator(stream);
-          console.log(videoNode.src);
         }
         videoNode.play();
       };
@@ -115,7 +113,7 @@
     }
 
     // Paint the frame onto the canvas
-    context.drawImage(videoNode, x0, y0, 320, 160);
+    context.drawImage(videoNode, x0, y0, width, height);
 
     // Apply filter to the image frame
     let imageData = context.getImageData(x0, y0, width, height);
