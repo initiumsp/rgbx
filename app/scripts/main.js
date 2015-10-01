@@ -4,7 +4,7 @@
 
   // =====================================
   //
-  // Create Colour Filters
+  //        Create Colour Filters
   //
   // =====================================
 
@@ -27,11 +27,9 @@
 
   let filter = deuteranopia;
 
-
-
   // =====================================
   //
-  // Set up vendor-specific media input
+  //  Set up vendor-specific media input
   //
   // =====================================
 
@@ -80,7 +78,8 @@
 
   // =====================================
   //
-  // Set up canvas and establish connection between canvas and video
+  //     Set up canvas and establish
+  //  connection between canvas and video
   //
   // =====================================
 
@@ -101,7 +100,6 @@
 
     // Apply filter to the image frame
     let imageData = context.getImageData(x0, y0, width, height);
-    let data = imageData.data;
     filter(imageData.data);
     context.putImageData(imageData, x0, y0);
 
