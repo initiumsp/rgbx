@@ -2,13 +2,6 @@
 
   'use strict';
 
-  const videoDOMNode = document.getElementById("video");
-  const canvasDOMNode = document.getElementById('display');
-  const videoConstraints = {
-          video: true,
-          audio: false
-        };
-
   const mediaErrorHandler = error => console.log("Video capture error: ", error);
 
   const createStreamHandler = (videoNode, urlCreator) =>
@@ -29,6 +22,11 @@
   //
   // =====================================
 
+  const videoDOMNode = document.getElementById("video");
+  const videoConstraints = {
+    video: true,
+    audio: false
+  };
   let funcGetUserMedia, vendorUrlCreator;
 
   // Standard
@@ -52,5 +50,30 @@
 
   const streamHandler = createStreamHandler(videoDOMNode, vendorUrlCreator);
   funcGetUserMedia(videoConstraints, streamHandler, mediaErrorHandler);
+
+  // =====================================
+  //
+  // Set up canvas and establish connection between canvas and video
+  //
+  // =====================================
+
+  const canvasDOMNode = document.getElementById('display');
+  const canvasContext = canvasDOMNode.getContext('2d');
+
+  const updateCanvasFrame = (videoNode, context, width, height) => {
+    if (videoNode.paused || videoNode.ended) {
+      return;
+    }
+    context.drawImage(videoNode, 0, 0, width, height);
+
+    window.setTimeout(() => {
+      updateCanvasFrame(videoNode, context, width, height);
+    }, 16);
+    console.log('running');
+  };
+
+  videoDOMNode.addEventListener('play', () => {
+    updateCanvasFrame(videoDOMNode, canvasContext, 640, 480);
+  });
 
 }(window, window.navigator, window.document, window.console));
