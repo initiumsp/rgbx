@@ -337,7 +337,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.webp',
             'scripts/*.js',
             '{,*/}*.html',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'CNAME'
           ]
         }, {
           expand: true,
