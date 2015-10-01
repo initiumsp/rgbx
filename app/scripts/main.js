@@ -8,7 +8,8 @@
   //
   // =====================================
 
-  const identicalParameters = [
+  // Generate a filter that just copies the input
+  const identicalLinearParameters = [
   // R  G  B  - values from the camera
     [1, 0, 0],  // R - linear coefficients
     [0, 1, 0],  // G
