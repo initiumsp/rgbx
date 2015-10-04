@@ -31,6 +31,21 @@
     [-0.02, 0.03,  0.80]
   ];
 
+  const add = (sum, operand) => sum + operand;
+
+  const matrixVectorProduct = (mat, vec) =>
+    mat.map(row =>
+      row.map((value, index) => value * vec[index])
+         .reduce(add));
+
+  const createLinearFilterFast = parameterMatrix =>
+    data => {
+      for (let i = 0; i < data.length; i += 4) {
+        let pixelVec = [data[i], data[i + 1], data[i + 2]];
+        [data[i], data[i + 1], data[i + 2]] = matrixVectorProduct(parameterMatrix, pixelVec)
+      }
+    };
+
   const createLinearFilter = parameterMatrix =>
 
     data => {
