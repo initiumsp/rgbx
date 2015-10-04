@@ -1,18 +1,17 @@
 #display {
   display: block;
-  width: 640px;
+  width: 480px;
   height: 480px;
 }
 
 #video {
-  width: 640px;
-  height: 480px;
+  display: none;
 }
 
 select {
   display: block;
   font-size: 1.5em;
-  width: 640px;
+  width: 480px;
 }
 
 /*# sourceMappingURL=main.css.map */
