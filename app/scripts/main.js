@@ -38,8 +38,8 @@
       row.map((value, index) => value * vec[index])
          .reduce(add));
 
-  const createLinearFilterFast = parameterMatrix =>
-    data => {
+  const createSlowButConciseLinearFilter = parameterMatrix =>
+      data => {
       for (let i = 0; i < data.length; i += 4) {
         let pixelVec = [data[i], data[i + 1], data[i + 2]];
         [data[i], data[i + 1], data[i + 2]] = matrixVectorProduct(parameterMatrix, pixelVec)
