@@ -14,38 +14,39 @@
 
   // =====================================
   //
-  //        Create Colour Filters
+  //      Create filters functions
   //
   // =====================================
 
   // Generate a filter that just copies the input
-  const identicalLinearParameters = [
+
+  let identicalLinearParameters = [
   // R  G  B  - values from the camera
-    [1, 0, 0],  // R - linear coefficients
-    [0, 1, 0],  // G
-    [0, 0, 1]   // B
+    [1, 0, 0], // R - linear coefficients
+    [0, 1, 0], // G
+    [0, 0, 1]  // B
   ];
 
-  const deuteranopiaLinearParameters = [
+  let deuteranopiaLinearParameters = [
     [ 0.43, 0.72, -0.15],
     [ 0.34, 0.57, -0.09],
     [-0.02, 0.03,  0.80]
   ];
 
-  const add = (sum, operand) => sum + operand;
+  let add = (sum, operand) => sum + operand;
 
-  const matrixVectorProduct = (mat, vec) =>
+  let matrixVectorProduct = (mat, vec) =>
     mat.map(row =>
             row.map((value, index) => value * vec[index])
                .reduce(add));
 
-  const createSlowButConciseLinearFilter = parameterMatrix =>
+  let createSlowButConciseLinearFilter = parameterMatrix =>
       data => {
-      for (let i = 0; i < data.length; i += 4) {
-        let pixelVec = [data[i], data[i + 1], data[i + 2]];
-        [data[i], data[i + 1], data[i + 2]] = matrixVectorProduct(parameterMatrix, pixelVec)
-      }
-    };
+        for (let i = 0; i < data.length; i += 4) {
+          let pixelVec = [data[i], data[i + 1], data[i + 2]];
+          [data[i], data[i + 1], data[i + 2]] = matrixVectorProduct(parameterMatrix, pixelVec)
+        }
+      };
 
   function createLinearFilter(parameterMatrix) {
 
@@ -55,15 +56,15 @@
 
       for (let i = 0; i < data.length; i += 4) {
 
-        const coefficient_RxR = parameterMatrix[0][0];
-        const coefficient_RxG = parameterMatrix[0][1];
-        const coefficient_RxB = parameterMatrix[0][2];
-        const coefficient_GxR = parameterMatrix[1][0];
-        const coefficient_GxG = parameterMatrix[1][1];
-        const coefficient_GxB = parameterMatrix[1][2];
-        const coefficient_BxR = parameterMatrix[2][0];
-        const coefficient_BxG = parameterMatrix[2][1];
-        const coefficient_BxB = parameterMatrix[2][2];
+        let coefficient_RxR = parameterMatrix[0][0];
+        let coefficient_RxG = parameterMatrix[0][1];
+        let coefficient_RxB = parameterMatrix[0][2];
+        let coefficient_GxR = parameterMatrix[1][0];
+        let coefficient_GxG = parameterMatrix[1][1];
+        let coefficient_GxB = parameterMatrix[1][2];
+        let coefficient_BxR = parameterMatrix[2][0];
+        let coefficient_BxG = parameterMatrix[2][1];
+        let coefficient_BxB = parameterMatrix[2][2];
 
         let r = data[i],
             g = data[i + 1],
@@ -82,16 +83,16 @@
 
   function rgbToHsv(r, g, b){
     r = r/255, g = g/255, b = b/255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, v = max;
+    let max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h, s, v = max;
 
-    var d = max - min;
+    let d = max - min;
     s = max == 0 ? 0 : d / max;
 
     if(max == min){
       h = 0; // achromatic
-    }else{
-      switch(max){
+    } else {
+      switch (max) {
         case r: h = (g - b) / d + (g < b ? 6 : 0); break;
         case g: h = (b - r) / d + 2; break;
         case b: h = (r - g) / d + 4; break;
@@ -161,7 +162,7 @@
      http://vision.psychol.cam.ac.uk/jdmollon/papers/colourmaps.pdf
      */
 
-    const CVDMatrix = { // Color Vision Deficiency
+    let CVDMatrix = { // Color Vision Deficiency
       "Protanope": [ // reds are greatly reduced (1% men)
         0.0, 2.02344, -2.52581,
         0.0, 1.0,      0.0,
@@ -255,13 +256,14 @@
 
   // =====================================
   //
-  //  Set up vendor-specific media input
+  //     Set up media input to capture
+  //             camera data
   //
   // =====================================
 
-  const mediaErrorHandler = error => console.log("Video capture error: ", error);
+  let mediaErrorHandler = error => console.log("Video capture error: ", error);
 
-  const createStreamHandler = (videoNode, urlCreator) =>
+  let createStreamHandler = (videoNode, urlCreator) =>
       stream => {
         if (urlCreator === null) {
           videoNode.src = stream;
@@ -271,8 +273,8 @@
         videoNode.play();
       };
 
-  const videoDOMNode = document.getElementById("video");
-  const videoConstraints = {
+  let videoDOMNode = document.getElementById("video");
+  let videoConstraints = {
     video: true,
     audio: false
   };
@@ -297,7 +299,7 @@
     console.log('Using Mozilla getUserMedia');
   }
 
-  const streamHandler = createStreamHandler(videoDOMNode, vendorUrlCreator);
+  let streamHandler = createStreamHandler(videoDOMNode, vendorUrlCreator);
   funcGetUserMedia(videoConstraints, streamHandler, mediaErrorHandler);
 
   // =====================================
@@ -307,13 +309,13 @@
   //
   // =====================================
 
-  const canvasDOMNode = document.getElementById('display');
-  const canvasContext = canvasDOMNode.getContext('2d');
+  let canvasDOMNode = document.getElementById('display');
+  let canvasContext = canvasDOMNode.getContext('2d');
 
-  const updateCanvasFrame = (videoNode, context, width, height) => {
+  let updateCanvasFrame = (videoNode, context, width, height) => {
 
-    const x0 = 0;
-    const y0 = 0;
+    let x0 = 0;
+    let y0 = 0;
 
     if (videoNode.paused || videoNode.ended) {
       return;
@@ -339,6 +341,8 @@
     updateCanvasFrame(videoDOMNode, canvasContext, CANVAS_WIDTH, CANVAS_HEIGHT);
   });
 
+  // Adjust filter according to the user choice
+
   let modeSelect = document.getElementById('modeSelect');
   modeSelect.addEventListener('change', (event) => {
     let option = event.target.value;
@@ -357,7 +361,5 @@
 
     console.log(option);
   })
-
-
 
 }(window, window.navigator, window.document, window.console));
