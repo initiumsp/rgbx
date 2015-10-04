@@ -312,7 +312,16 @@
   let canvasDOMNode = document.getElementById('display');
   let canvasContext = canvasDOMNode.getContext('2d');
 
+  let canvasResized = false; // Adjust canvas size according to the video size
+
   let updateCanvasFrame = (videoNode, context, width, height) => {
+
+    if ((!canvasResized) && (videoNode.videoWidth > 0)) {
+      context.canvas.style.width = videoNode.videoWidth + 'px';
+      context.canvas.style.height = videoNode.videoHeight + 'px';
+      canvasResized = true;
+      console.log('set', videoNode.videoWidth, videoNode.videoHeight);
+    }
 
     let x0 = 0;
     let y0 = 0;

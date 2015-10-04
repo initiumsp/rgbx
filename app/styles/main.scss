@@ -1,4 +1,4 @@
-$CANVAS_WIDTH  : 640px;
+$CANVAS_WIDTH  : 480px;
 $CANVAS_HEIGHT : 480px;
 
 #display {
@@ -8,8 +8,7 @@ $CANVAS_HEIGHT : 480px;
 }
 
 #video {
-  width:  $CANVAS_WIDTH;
-  height: $CANVAS_HEIGHT;
+  display: none;
 }
 
 select {
