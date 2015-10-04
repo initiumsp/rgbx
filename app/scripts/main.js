@@ -35,8 +35,8 @@
 
   const matrixVectorProduct = (mat, vec) =>
     mat.map(row =>
-      row.map((value, index) => value * vec[index])
-         .reduce(add));
+            row.map((value, index) => value * vec[index])
+               .reduce(add));
 
   const createSlowButConciseLinearFilter = parameterMatrix =>
       data => {
@@ -46,26 +46,37 @@
       }
     };
 
-  const createLinearFilter = parameterMatrix =>
+  function createLinearFilter(parameterMatrix) {
 
-    data => {
+    return data => {
+
+      // This is just matrix multiplication: parameterMatrix * data
 
       for (let i = 0; i < data.length; i += 4) {
 
-        let computeR = (r, g, b) => parameterMatrix[0][0] * r + parameterMatrix[0][1] * g + parameterMatrix[0][2] * b,
-            computeG = (r, g, b) => parameterMatrix[1][0] * r + parameterMatrix[1][1] * g + parameterMatrix[1][2] * b,
-            computeB = (r, g, b) => parameterMatrix[2][0] * r + parameterMatrix[2][1] * g + parameterMatrix[2][2] * b;
+        const coefficient_RxR = parameterMatrix[0][0];
+        const coefficient_RxG = parameterMatrix[0][1];
+        const coefficient_RxB = parameterMatrix[0][2];
+        const coefficient_GxR = parameterMatrix[1][0];
+        const coefficient_GxG = parameterMatrix[1][1];
+        const coefficient_GxB = parameterMatrix[1][2];
+        const coefficient_BxR = parameterMatrix[2][0];
+        const coefficient_BxG = parameterMatrix[2][1];
+        const coefficient_BxB = parameterMatrix[2][2];
 
         let r = data[i],
             g = data[i + 1],
             b = data[i + 2];
 
-        data[i]   = computeR(r, g, b);
-        data[i+1] = computeG(r, g, b);
-        data[i+2] = computeB(r, g, b);
+        data[i    ] = coefficient_RxR * r + coefficient_RxG * g + coefficient_RxB * b;
+        data[i + 1] = coefficient_GxR * r + coefficient_GxG * g + coefficient_GxB * b;
+        data[i + 2] = coefficient_BxR * r + coefficient_BxG * g + coefficient_BxB * b;
+
       }
 
     };
+  }
+
 
   let filter = createLinearFilter(deuteranopiaLinearParameters);
 
