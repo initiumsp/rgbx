@@ -54,17 +54,17 @@
 
       // This is just matrix multiplication: parameterMatrix * data
 
-      for (let i = 0; i < data.length; i += 4) {
+      let coefficient_RxR = parameterMatrix[0][0];
+      let coefficient_RxG = parameterMatrix[0][1];
+      let coefficient_RxB = parameterMatrix[0][2];
+      let coefficient_GxR = parameterMatrix[1][0];
+      let coefficient_GxG = parameterMatrix[1][1];
+      let coefficient_GxB = parameterMatrix[1][2];
+      let coefficient_BxR = parameterMatrix[2][0];
+      let coefficient_BxG = parameterMatrix[2][1];
+      let coefficient_BxB = parameterMatrix[2][2];
 
-        let coefficient_RxR = parameterMatrix[0][0];
-        let coefficient_RxG = parameterMatrix[0][1];
-        let coefficient_RxB = parameterMatrix[0][2];
-        let coefficient_GxR = parameterMatrix[1][0];
-        let coefficient_GxG = parameterMatrix[1][1];
-        let coefficient_GxB = parameterMatrix[1][2];
-        let coefficient_BxR = parameterMatrix[2][0];
-        let coefficient_BxG = parameterMatrix[2][1];
-        let coefficient_BxB = parameterMatrix[2][2];
+      for (let i = 0; i < data.length; i += 4) {
 
         let r = data[i],
             g = data[i + 1],
