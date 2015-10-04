@@ -23,8 +23,17 @@
 
     <!-- Visible contents -->
     <div class="container">
-      <video id="video" autoplay></video>
+      <h1>
+        RGBX: The Colour Vision Simulator
+      </h1>
+      <select id="modeSelect">
+        <option value="3">3-colour vision (original camera)</option>
+        <option value="3toDeuteranopia">3->2 Simulate 2-colour vision with only blue and yellow</option>
+        <option value="3toTetrachromacy">3->4 Simulate 4-colour vision</option>
+        <option value="2to3">2->3 Simulate 3-colour vision</option>
+      </select>
       <canvas id="display" width="640px" height="480px" moz-opaque></canvas>
+      <video id="video" autoplay></video>
     </div>
 
     <script src="scripts/main.js"></script>

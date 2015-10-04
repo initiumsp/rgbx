@@ -11,3 +11,9 @@ $CANVAS_HEIGHT : 480px;
   width:  $CANVAS_WIDTH;
   height: $CANVAS_HEIGHT;
 }
+
+select {
+  display: block;
+  font-size: 1.5em;
+  width: $CANVAS_WIDTH;
+}

@@ -123,7 +123,7 @@
     return [r * 255, g * 255, b * 255];
   }
 
-  function createSpectrumShifter(compress_index) {
+  function createSpectrumShiftFilter(compress_index) {
 
     return data => {
 
@@ -147,7 +147,111 @@
     }
   }
 
-  let filter = createSpectrumShifter(TETRACHROMACY_ADJUSTMENT_INDEX);
+  function createSimpleDaltonizeFilter(deficiencyType='Deuteranope') {
+
+    // Ported from http://mudcu.be/labs/Color-Vision/Javascript/Color.Vision.Daltonize.js
+    // Original copyright notice:
+    /*
+     Color.Vision.Daltonize : v0.1
+     ------------------------------
+     "Analysis of Color Blindness" by Onur Fidaner, Poliang Lin and Nevran Ozguven.
+     http://scien.stanford.edu/class/psych221/projects/05/ofidaner/project_report.pdf
+
+     "Digital Video Colourmaps for Checking the Legibility of Displays by Dichromats" by FranÃ§oise ViÃ©not, Hans Brettel and John D. Mollon
+     http://vision.psychol.cam.ac.uk/jdmollon/papers/colourmaps.pdf
+     */
+
+    const CVDMatrix = { // Color Vision Deficiency
+      "Protanope": [ // reds are greatly reduced (1% men)
+        0.0, 2.02344, -2.52581,
+        0.0, 1.0,      0.0,
+        0.0, 0.0,      1.0
+      ],
+      "Deuteranope": [ // greens are greatly reduced (1% men)
+        1.0,      0.0, 0.0,
+        0.494207, 0.0, 1.24827,
+        0.0,      0.0, 1.0
+      ],
+      "Tritanope": [ // blues are greatly reduced (0.003% population)
+        1.0,       0.0,      0.0,
+        0.0,       1.0,      0.0,
+        -0.395913, 0.801109, 0.0
+      ]
+    };
+
+    let cvd = CVDMatrix[deficiencyType],
+        cvd_a = cvd[0],
+        cvd_b = cvd[1],
+        cvd_c = cvd[2],
+        cvd_d = cvd[3],
+        cvd_e = cvd[4],
+        cvd_f = cvd[5],
+        cvd_g = cvd[6],
+        cvd_h = cvd[7],
+        cvd_i = cvd[8];
+
+    return (data) => {
+
+      let l_input, m_input, s_input,
+          l, m, s,
+          r, g, b,
+          r_offset, g_offset, b_offset;
+
+      for (let i = 0, length = data.length; i < length; i += 4) {
+
+        let r_input = data[i],
+            g_input = data[i + 1],
+            b_input = data[i + 2];
+
+        // RGB to LMS matrix conversion
+        l_input = (17.8824 * r_input) + (43.5161 * g_input) + (4.11935 * b_input);
+        m_input = (3.45565 * r_input) + (27.1554 * g_input) + (3.86714 * b_input);
+        s_input = (0.0299566 * r_input) + (0.184309 * g_input) + (1.46709 * b_input);
+
+        // Simulate color blindness
+        l = (cvd_a * l_input) + (cvd_b * m_input) + (cvd_c * s_input);
+        m = (cvd_d * l_input) + (cvd_e * m_input) + (cvd_f * s_input);
+        s = (cvd_g * l_input) + (cvd_h * m_input) + (cvd_i * s_input);
+
+        // LMS to RGB matrix conversion
+        r = (0.0809444479 * l) + (-0.130504409 * m) + (0.116721066 * s);
+        g = (-0.0102485335 * l) + (0.0540193266 * m) + (-0.113614708 * s);
+        b = (-0.000365296938 * l) + (-0.00412161469 * m) + (0.693511405 * s);
+
+        // Isolate invisible colors to color vision deficiency (calculate error matrix)
+        r = r_input - r;
+        g = g_input - g;
+        b = b_input - b;
+
+        // Shift colors towards visible spectrum (apply error modifications)
+        r_offset = 0;
+        g_offset = (0.7 * r) + (1.0 * g);
+        b_offset = (0.7 * r) + b;
+
+        // Add compensation to original values
+        r = r_offset + r_input;
+        g = g_offset + g_input;
+        b = b_offset + b_input;
+
+        // Clamp values
+        if (r < 0) r = 0;
+        if (r > 255) r = 255;
+        if (g < 0) g = 0;
+        if (g > 255) g = 255;
+        if (b < 0) b = 0;
+        if (b > 255) b = 255;
+
+        // Record color
+        data[i    ] = r >> 0;
+        data[i + 1] = g >> 0;
+        data[i + 2] = b >> 0;
+      }
+
+    }
+  }
+
+  // Set up default filter
+  let filter = createLinearFilter(identicalLinearParameters);
 
   // =====================================
   //
@@ -229,8 +333,31 @@
     });
   };
 
+  // Setup event listeners
+
   videoDOMNode.addEventListener('play', () => {
     updateCanvasFrame(videoDOMNode, canvasContext, CANVAS_WIDTH, CANVAS_HEIGHT);
   });
+
+  let modeSelect = document.getElementById('modeSelect');
+  modeSelect.addEventListener('change', (event) => {
+    let option = event.target.value;
+
+    if (option === '3toDeuteranopia') {
+      filter = createLinearFilter(deuteranopiaLinearParameters);
+    } else if (option === '3toTetrachromacy') {
+      filter = createSpectrumShiftFilter(TETRACHROMACY_ADJUSTMENT_INDEX);
+    } else if (option === '3') {
+      filter = createLinearFilter(identicalLinearParameters);
+    } else if (option === '2to3') {
+      filter = createSimpleDaltonizeFilter();
+    }
+
+    updateCanvasFrame(videoDOMNode, canvasContext, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    console.log(option);
+  })
+
+
 
 }(window, window.navigator, window.document, window.console));

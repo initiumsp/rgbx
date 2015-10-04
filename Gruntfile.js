@@ -147,8 +147,8 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= config.app %>/scripts',
-          src: ['{,*/}*.js', "!*min.js"],
+          cwd: 'app/scripts/',
+          src: ['{,*/}*.js'],
           dest: '.tmp/scripts',
           ext: '.js'
         }]
@@ -377,7 +377,7 @@ module.exports = function (grunt) {
         'babel'
       ],
       dist: [
-        'babel',
+        'babel:dist',
         'sass',
         'imagemin',
         'svgmin'
