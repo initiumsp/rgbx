@@ -5,22 +5,10 @@
     <title>rgbx</title>
     <meta name="description" content="Expand your colour vision">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css">
 
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
-    
   </head>
   <body>
-    <!--[if lt IE 10]> <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p> <![endif]-->
-
     <!-- Visible contents -->
     <div class="container">
       <h1>
@@ -36,6 +24,10 @@
       <video id="video" autoplay></video>
     </div>
 
-    <script src="scripts/main.js"></script>
+    <!--(if target dev)><!-->
+    <script src="http://localhost:35729/livereload.js"></script>
+    <!--<!(endif)-->
+
+    <script src="main.js"></script>
   </body>
 </html>
