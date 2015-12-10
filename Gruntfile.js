@@ -76,7 +76,9 @@ module.exports = function(grunt) {
           {'dist/index.html': 'build/index.html'},
           {'dist/main.js': 'build/main.js'},
           {'dist/main.css': 'build/main.css'},
-          {'dist/CNAME': 'app/CNAME'}
+          {'dist/CNAME': 'app/CNAME'},
+          {'dist/meta.json':'app/meta.json'},
+          {'dist/thumbnail.jpg':'app/thumbnail.jpg'}
         ]
       }
     },
