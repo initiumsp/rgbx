@@ -146,5 +146,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build',  ['clean:dev', 'babel', 'sass', 'copy:dev']);
   grunt.registerTask('build:complete', ['build', 'clean:dist', 'uglify', 'targethtml:dist', 'copy:dist']);
   grunt.registerTask('serve',  ['build', 'connect', 'watch']);
-  grunt.registerTask('deploy', ['gh-pages', 'rsync']);
+  grunt.registerTask('deploy:staging', ['rsync']);
+  grunt.registerTask('deploy:prod', ['gh-pages']);
 };
