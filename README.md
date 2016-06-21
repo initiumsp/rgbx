@@ -1,6 +1,6 @@
 # RGBX: The Colour Vision Simulator
 
-Ref: https://initiumlab.com/blog/20151012-what-is-colour/
+Reference: https://initiumlab.com/blog/20151012-what-is-colour/
 
 
 ## Build
